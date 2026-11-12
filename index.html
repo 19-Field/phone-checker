@@ -1,4 +1,4 @@
-[11/12/2026 10:24 AM] SM Mobile: <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="my">
 <head>
     <meta charset="UTF-8">
@@ -68,7 +68,7 @@
             } else if (step === 'touch') {
                 content.innerHTML = `<h2 class="text-xl font-bold mb-4">၂။ Touch Digitizer စစ်ဆေးခြင်း</h2>
                                      <p class="text-slate-300 text-sm mb-4">Touch Dead Zone ရှိမရှိ ဇယားကွက်ပေါ်တွင် လက်ဖြင့်ခြယ်ပါ</p>
-[11/12/2026 10:24 AM] SM Mobile: <button onclick="startTouchTest()" class="bg-indigo-600 px-6 py-2 rounded-lg font-semibold cursor-pointer">Touch စစ်ရန် နှိပ်ပါ</button>;
+<button onclick="startTouchTest()" class="bg-indigo-600 px-6 py-2 rounded-lg font-semibold cursor-pointer">Touch စစ်ရန် နှိပ်ပါ</button>;
             } else if (step === 'camera') {
                 content.innerHTML = <h2 class="text-xl font-bold mb-4">၃။ Camera စစ်ဆေးခြင်း</h2>
                                      <p class="text-slate-300 text-sm mb-4">ကင်မရာ အလုပ်လုပ်ပုံကို စစ်ဆေးရန်</p>
@@ -122,7 +122,7 @@
             ctx.strokeStyle = '#3b82f6';
             ctx.lineWidth = 15;
             ctx.lineCap = 'round';
-[11/12/2026 10:24 AM] SM Mobile: let drawing = false;
+let drawing = false;
             canvas.onpointerdown = (e) => { drawing = true; ctx.beginPath(); ctx.moveTo(e.clientX, e.clientY); };
             canvas.onpointermove = (e) => { if (!drawing) return; ctx.lineTo(e.clientX, e.clientY); ctx.stroke(); };
             canvas.onpointerup = () => { drawing = false; };
