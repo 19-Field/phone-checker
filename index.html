@@ -1,29 +1,28 @@
-[11/12/2026 10:01 AM] SM Mobile: <!DOCTYPE html>
+[11/12/2026 10:24 AM] SM Mobile: <!DOCTYPE html>
 <html lang="my">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mobile Diagnostic & CEIR Tool</title>
-    <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-900 text-white min-h-screen flex flex-col items-center justify-center p-4">
 
     <div class="w-full max-w-md bg-slate-800 rounded-2xl shadow-xl p-6 text-center" id="main-card">
         <h1 class="text-2xl font-bold mb-2">📱 Phone Health & CEIR Check</h1>
-        <p class="text-slate-400 text-sm mb-6">Screen၊ Touch၊ Camera၊ Mic နှင့် CEIR (IMEI) များကို တစ်ထိုင်တည်း စစ်ဆေးရန်</p>
+        <p class="text-slate-400 text-sm mb-6">Screen၊ Touch၊ Camera၊ Mic နှင့် CEIR များကို စစ်ဆေးရန်</p>
         
-        <button onclick="startTests()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-xl transition shadow-lg">
+        <button onclick="startTests()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-6 rounded-xl transition shadow-lg cursor-pointer">
             စစ်ဆေးမှု စတင်ရန် (Start Test)
         </button>
     </div>
 
-    <!-- Test Container (Hidden by default) -->
+    <!-- Test Container -->
     <div id="test-container" class="hidden w-full max-w-md bg-slate-800 rounded-2xl shadow-xl p-6">
         <div id="test-content"></div>
         <div id="test-controls" class="mt-6 flex gap-4 hidden">
-            <button onclick="recordResult(false)" class="flex-1 bg-red-600 hover:bg-red-500 py-2 rounded-lg font-semibold">❌ အမှားရှိသည် (Fail)</button>
-            <button onclick="recordResult(true)" class="flex-1 bg-green-600 hover:bg-green-500 py-2 rounded-lg font-semibold">✅ ကောင်းသည် (Pass)</button>
+            <button onclick="recordResult(false)" class="flex-1 bg-red-600 hover:bg-red-500 py-2 rounded-lg font-semibold cursor-pointer">❌ အမှားရှိ (Fail)</button>
+            <button onclick="recordResult(true)" class="flex-1 bg-green-600 hover:bg-green-500 py-2 rounded-lg font-semibold cursor-pointer">✅ ကောင်း (Pass)</button>
         </div>
     </div>
 
@@ -35,8 +34,8 @@
     <!-- Touch Test Canvas Overlay -->
     <div id="touch-overlay" class="hidden fixed inset-0 z-50 bg-black flex flex-col">
         <div class="p-4 bg-slate-900 flex justify-between items-center">
-            <span class="text-sm text-slate-400">ဇယားကွက်များပေါ်တွင် လက်ဖြင့်ခြယ်ပါ (Touch စစ်ရန်)</span>
-            <button onclick="finishTouchTest()" class="bg-green-600 px-4 py-1 rounded text-sm font-semibold">ပြီးပြီ (Done)</button>
+            <span class="text-sm text-slate-400">ဇယားကွက်များပေါ်တွင် လက်ဖြင့်ခြယ်ပါ</span>
+            <button onclick="finishTouchTest()" class="bg-green-600 px-4 py-1 rounded text-sm font-semibold cursor-pointer">ပြီးပြီ (Done)</button>
         </div>
         <canvas id="touchCanvas" class="flex-1 w-full bg-slate-950 cursor-crosshair"></canvas>
     </div>
@@ -52,6 +51,7 @@
         function startTests() {
             document.getElementById('main-card').classList.add('hidden');
             document.getElementById('test-container').classList.remove('hidden');
+            currentStep = 0;
             runStep();
         }
 
@@ -63,38 +63,36 @@
 
             if (step === 'screen') {
                 content.innerHTML = <h2 class="text-xl font-bold mb-4">၁။ Screen (LCD/OLED) စစ်ဆေးခြင်း</h2>
-                                     <p class="text-slate-300 text-sm mb-4">ဖုန်းမျက်နှာပြင် Dead Pixel နှင့် Burn-in ရှိမရှိ စစ်ဆေးပါမည်။</p>
-                                     <button onclick="startScreenTest()" class="bg-indigo-600 px-6 py-2 rounded-lg font-semibold">Screen စစ်ရန် နှိပ်ပါ</button>;
+                                     <p class="text-slate-300 text-sm mb-4">မျက်နှာပြင် Dead Pixel နှင့် Burn-in စစ်ဆေးရန်</p>
+                                     <button onclick="startScreenTest()" class="bg-indigo-600 px-6 py-2 rounded-lg font-semibold cursor-pointer">Screen စစ်ရန် နှိပ်ပါ</button>;
             } else if (step === 'touch') {
                 content.innerHTML = `<h2 class="text-xl font-bold mb-4">၂။ Touch Digitizer စစ်ဆေးခြင်း</h2>
-[11/12/2026 10:01 AM] SM Mobile: <p class="text-slate-300 text-sm mb-4">Touch Dead Zone ရှိမရှိ ဇယားကွက်ပေါ်တွင် လက်ဖြင့် ခြယ်လှယ်စစ်ဆေးပါ။</p>
-                                     <button onclick="startTouchTest()" class="bg-indigo-600 px-6 py-2 rounded-lg font-semibold">Touch စစ်ရန် နှိပ်ပါ</button>;
+                                     <p class="text-slate-300 text-sm mb-4">Touch Dead Zone ရှိမရှိ ဇယားကွက်ပေါ်တွင် လက်ဖြင့်ခြယ်ပါ</p>
+[11/12/2026 10:24 AM] SM Mobile: <button onclick="startTouchTest()" class="bg-indigo-600 px-6 py-2 rounded-lg font-semibold cursor-pointer">Touch စစ်ရန် နှိပ်ပါ</button>;
             } else if (step === 'camera') {
                 content.innerHTML = <h2 class="text-xl font-bold mb-4">၃။ Camera စစ်ဆေးခြင်း</h2>
-                                     <p class="text-slate-300 text-sm mb-4">ကင်မရာ အလုပ်လုပ်ပုံကို စစ်ဆေးရန် အောက်ပါ ခလုတ်ကို နှိပ်ပါ။</p>
+                                     <p class="text-slate-300 text-sm mb-4">ကင်မရာ အလုပ်လုပ်ပုံကို စစ်ဆေးရန်</p>
                                      <video id="cameraPreview" autoplay playsinline class="w-full h-48 bg-black rounded-lg mb-4 object-cover"></video>
-                                     <button onclick="startCameraTest()" class="bg-indigo-600 px-6 py-2 rounded-lg font-semibold mb-4">ကင်မရာ ဖွင့်မည်</button>;
+                                     <button onclick="startCameraTest()" class="bg-indigo-600 px-6 py-2 rounded-lg font-semibold mb-4 cursor-pointer">ကင်မရာ ဖွင့်မည်</button>;
                 controls.classList.remove('hidden');
             } else if (step === 'mic') {
                 content.innerHTML = <h2 class="text-xl font-bold mb-4">၄။ Microphone စစ်ဆေးခြင်း</h2>
-                                     <p class="text-slate-300 text-sm mb-4">စကားပြောကြည့်ပါ (Mic မှ အသံဖမ်းယူမှုကို စစ်ဆေးမည်)</p>
+                                     <p class="text-slate-300 text-sm mb-4">စကားပြောကြည့်ပါ (Mic အသံဖမ်းယူမှု စစ်ဆေးမည်)</p>
                                      <div id="micStatus" class="text-lg font-semibold text-yellow-400 mb-4">စောင့်ဆိုင်းနေသည်...</div>
-                                     <button onclick="startMicTest()" class="bg-indigo-600 px-6 py-2 rounded-lg font-semibold mb-4">Mic စစ်ရန် စတင်မည်</button>;
+                                     <button onclick="startMicTest()" class="bg-indigo-600 px-6 py-2 rounded-lg font-semibold mb-4 cursor-pointer">Mic စစ်ရန် စတင်မည်</button>;
                 controls.classList.remove('hidden');
             } else if (step === 'ceir') {
                 content.innerHTML = <h2 class="text-xl font-bold mb-4">၅။ CEIR (IMEI) စစ်ဆေးခြင်း</h2>
-                                     <p class="text-slate-300 text-sm mb-4">ဖုန်းတွင် *#06# ခေါ်ဆိုပြီး ရလာသည့် IMEI နံပါတ်ကို ထည့်သွင်းပါ (သို့) ကူးယူပါ။</p>
-                                     <input type="text" id="imeiInput" placeholder="IMEI နံပါတ် (၁၅ လုံး) ထည့်ရန်" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white mb-3 text-center text-sm">
+                                     <p class="text-slate-300 text-sm mb-4">*#06# မှ ရလာသည့် IMEI နံပါတ် ထည့်ပါ</p>
+                                     <input type="text" id="imeiInput" placeholder="IMEI နံပါတ် (၁၅ လုံး)" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-white mb-3 text-center text-sm">
                                      <div class="flex gap-2 mb-4">
-                                         <button onclick="copyImei()" class="flex-1 bg-slate-700 hover:bg-slate-600 py-2 rounded-lg text-sm font-semibold">IMEI ကူးယူရန်</button>
-                                         <a href="https://www.ceir.gov.mm" target="_blank" class="flex-1 bg-indigo-600 hover:bg-indigo-500 py-2 rounded-lg text-sm font-semibold flex items-center justify-center">တရားဝင် CEIR သို့ ဝင်ရန်</a>
-                                     </div>
-                                     <p class="text-xs text-slate-400 mb-2">ဝဘ်ဆိုဒ်တွင် အခွန်ဆောင်ပြီး/မပြီး စစ်ဆေးပြီးပါက အောက်ပါအတိုင်း အတည်ပြုပါ -</p>;
+                                         <button onclick="copyImei()" class="flex-1 bg-slate-700 hover:bg-slate-600 py-2 rounded-lg text-sm font-semibold cursor-pointer">IMEI ကူးရန်</button>
+                                         <a href="https://www.ceir.gov.mm" target="_blank" class="flex-1 bg-indigo-600 hover:bg-indigo-500 py-2 rounded-lg text-sm font-semibold flex items-center justify-center">CEIR သို့ ဝင်ရန်</a>
+                                     </div>;
                 controls.classList.remove('hidden');
             }
         }
 
-        // --- 1. Screen Test Logic ---
         function startScreenTest() {
             colorIndex = 0;
             const overlay = document.getElementById('screen-overlay');
@@ -109,11 +107,11 @@
                 overlay.className = fixed inset-0 z-50 flex items-center justify-center cursor-pointer ${screenColors[colorIndex]};
             } else {
                 overlay.classList.add('hidden');
-                document.getElementById('test-content').innerHTML = <h2 class="text-xl font-bold mb-4"> Screen စစ်ဆေးပြီးပါပြီ</h2><p class="text-slate-300 mb-4">မျက်နှာပြင်တွင် အစက်အပြောက် သို့မဟုတ် အမည်းစက်များ ရှိပါသလား?</p>`;
+                document.getElementById('test-content').innerHTML = <h2 class="text-xl font-bold mb-4">Screen စစ်ဆေးပြီးပါပြီ</h2><p class="text-slate-300 mb-4">မျက်နှာပြင်တွင် အစက်အပြောက် ရှိပါသလား?</p>`;
                 document.getElementById('test-controls').classList.remove('hidden');
             }
         }
-[11/12/2026 10:01 AM] SM Mobile: // --- 2. Touch Test Logic ---
+
         function startTouchTest() {
             const overlay = document.getElementById('touch-overlay');
             overlay.classList.remove('hidden');
@@ -124,8 +122,7 @@
             ctx.strokeStyle = '#3b82f6';
             ctx.lineWidth = 15;
             ctx.lineCap = 'round';
-
-            let drawing = false;
+[11/12/2026 10:24 AM] SM Mobile: let drawing = false;
             canvas.onpointerdown = (e) => { drawing = true; ctx.beginPath(); ctx.moveTo(e.clientX, e.clientY); };
             canvas.onpointermove = (e) => { if (!drawing) return; ctx.lineTo(e.clientX, e.clientY); ctx.stroke(); };
             canvas.onpointerup = () => { drawing = false; };
@@ -139,7 +136,6 @@
             else showSummary();
         }
 
-        // --- 3. Camera Test Logic ---
         async function startCameraTest() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
@@ -149,27 +145,21 @@
             }
         }
 
-        // --- 4. Mic Test Logic ---
         async function startMicTest() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-                const status = document.getElementById('micStatus');
-                status.innerText = "🎤 အသံဖမ်းယူနေပါပြီ... စကားပြောကြည့်ပါ";
-                status.className = "text-lg font-semibold text-green-400 mb-4";
+                document.getElementById('micStatus').innerText = "🎤 အသံဖမ်းယူနေပါပြီ...";
+                document.getElementById('micStatus').className = "text-lg font-semibold text-green-400 mb-4";
             } catch (err) {
                 alert('Mic ဖွင့်၍မရပါ: ' + err);
             }
         }
 
-        // --- 5. CEIR Helper Logic ---
         function copyImei() {
             const imeiVal = document.getElementById('imeiInput').value;
-            if(!imeiInput) {
-                alert('ကျေးဇူးပြု၍ IMEI နံပါတ် အရင်ထည့်ပါ။');
-                return;
-            }
+            if(!imeiVal) { alert('IMEI အရင်ထည့်ပါ'); return; }
             navigator.clipboard.writeText(imeiVal);
-            alert('IMEI နံပါတ် ကူးယူပြီးပါပြီ!');
+            alert('IMEI ကူးယူပြီးပါပြီ!');
         }
 
         function recordResult(passed) {
@@ -193,15 +183,13 @@
             const container = document.getElementById('test-content');
             document.getElementById('test-controls').classList.add('hidden');
             
-            let html = <h2 class="text-2xl font-bold mb-4">📊 စစ်ဆေးမှု ရလဒ်များ</h2><div class="space-y-2 text-left mb-6">;
+            let html = <h2 class="text-2xl font-bold mb-4">📊 ရလဒ်များ</h2><div class="space-y-2 text-left mb-6">;
             for (let test of testSteps) {
-                let status = results[test] ? '✅ ကောင်းမွန်သည် (Pass)' : '❌ အမှားရှိသည် / မစစ်ရသေး';
-                if(test === 'ceir') {
-                    status = results[test] ? '✅ CEIR စစ်ဆေးပြီး (Paid)' : '❌ အခွန်မဆောင်ရသေး/မစစ်ရသေး';
-                }
+                let status = results[test] ? '✅ ကောင်း' : '❌ အမှားရှိ/မစစ်ရ';
+                if(test === 'ceir') status = 'ℹ️ စစ်ဆေးပြီး';
                 html += <div class="bg-slate-700 p-3 rounded-lg flex justify-between items-center"><span class="capitalize font-semibold">${test.toUpperCase()}</span><span class="text-sm">${status}</span></div>;
             }
-            html += </div><button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-500 w-full py-3 rounded-xl font-semibold">အစမှ ပြန်စရန်</button>;
+            html += </div><button onclick="startTests()" class="bg-blue-600 hover:bg-blue-500 w-full py-3 rounded-xl font-semibold cursor-pointer">အစမှ ပြန်စရန်</button>;
             container.innerHTML = html;
         }
     </script>
